@@ -1,0 +1,148 @@
+/* Basic Reset */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f4f7f6;
+  color: #333;
+}
+
+.App {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.App-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.App-header h1 {
+  color: #2c3e50;
+}
+
+.App-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.controls {
+  margin-bottom: 20px;
+}
+
+.fetch-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.fetch-button:hover:not(:disabled) {
+  background-color: #2980b9;
+}
+
+.fetch-button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #e74c3c;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.loading-message {
+  font-style: italic;
+  color: #7f8c8d;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: white;
+}
+
+.trials-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.trials-table th,
+.trials-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.trials-table th {
+  background-color: #34495e;
+  color: white;
+  font-weight: 600;
+}
+
+.trials-table tr:last-child td {
+  border-bottom: none;
+}
+
+.trials-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status-badge.recruiting {
+  background-color: #e8f8f5;
+  color: #2ecc71;
+}
+
+.status-badge.completed {
+  background-color: #eaf2f8;
+  color: #3498db;
+}
+
+.action-btn {
+  margin-right: 8px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.action-btn.approve {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.action-btn.reject {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.no-data {
+  color: #7f8c8d;
+  margin-top: 20px;
+}
+
