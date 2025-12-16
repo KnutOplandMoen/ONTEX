@@ -31,3 +31,8 @@ export const updateTrial = async (
   return response.data;
 };
 
+export const runIngestion = async (): Promise<{ status: string }> => {
+  const response = await api.post<{ status: string }>('/debug/run-ingestion');
+  return response.data;
+};
+

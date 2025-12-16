@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getTrials, updateTrial } from './api';
+import { getTrials, updateTrial, runIngestion } from './api';
 import type { Trial } from './api';
 
 function App() {
@@ -7,6 +7,7 @@ function App() {
   const [selectedTrial, setSelectedTrial] = useState<Trial | null>(null);
   const [view, setView] = useState<'PENDING_REVIEW' | 'APPROVED' | 'REJECTED'>('PENDING_REVIEW');
   const [customSummary, setCustomSummary] = useState('');
+  const [isIngesting, setIsIngesting] = useState(false);
 
   useEffect(() => {
     loadTrials();
@@ -25,6 +26,22 @@ function App() {
       setSelectedTrial(null);
     } catch (error) {
       console.error("Failed to load trials", error);
+    }
+  };
+
+  const handleIngestion = async () => {
+    setIsIngesting(true);
+    try {
+      await runIngestion();
+      alert("Ingestion started successfully!");
+      if (view === 'PENDING_REVIEW') {
+        loadTrials();
+      }
+    } catch (error) {
+      console.error("Failed to run ingestion", error);
+      alert("Failed to start ingestion");
+    } finally {
+      setIsIngesting(false);
     }
   };
 
@@ -53,6 +70,19 @@ function App() {
       <div className="w-64 bg-white border-r flex flex-col">
         <div className="p-4 border-b font-bold text-xl text-blue-600">
           Trial Explorer
+        </div>
+        <div className="p-2">
+            <button
+              onClick={handleIngestion}
+              disabled={isIngesting}
+              className={`w-full px-3 py-2 rounded mb-2 text-sm font-medium transition
+                ${isIngesting 
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                  : 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100'
+                }`}
+            >
+              {isIngesting ? 'Running...' : 'Run Daily Ingestion'}
+            </button>
         </div>
         <nav className="flex-1 overflow-y-auto p-2">
           <div className="space-y-1">
