@@ -1,0 +1,12 @@
+aiofiles
+fastapi
+uvicorn
+sqlalchemy
+asyncpg
+sqladmin
+apscheduler
+python-multipart
+python-jose[cryptography]
+passlib[bcrypt]
+pydantic-settings
+python-dotenv
