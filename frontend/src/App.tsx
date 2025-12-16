@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { getTrials, updateTrial, Trial } from './api';
+import { useEffect, useState } from 'react';
+import { getTrials, updateTrial } from './api';
+import type { Trial } from './api';
 
 function App() {
   const [trials, setTrials] = useState<Trial[]>([]);
