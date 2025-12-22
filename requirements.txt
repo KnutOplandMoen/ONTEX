@@ -10,3 +10,4 @@ python-jose[cryptography]
 passlib[bcrypt]
 pydantic-settings
 python-dotenv
+requests
