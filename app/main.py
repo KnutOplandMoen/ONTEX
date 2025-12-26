@@ -6,6 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqladmin import Admin
 from sqlalchemy.ext.asyncio import AsyncSession
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from alembic.config import Config
+from alembic import command
 import os
 
 from app.core.config import settings
@@ -18,11 +20,16 @@ from app.api.endpoints import router as api_router
 # Initialize Scheduler
 scheduler = AsyncIOScheduler()
 
+def run_migrations():
+    """Run Alembic migrations on startup"""
+    alembic_cfg = Config("alembic.ini")
+    alembic_cfg.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+    command.upgrade(alembic_cfg, "head")
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: Create tables (simplification for boilerplate)
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    # Startup: Run database migrations
+    run_migrations()
     
     # Add ingestion job to run every 24 hours
     scheduler.add_job(run_daily_ingestion, 'interval', hours=24)
