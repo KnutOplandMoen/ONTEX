@@ -13,3 +13,4 @@ pydantic-settings
 python-dotenv
 requests
 aiosqlite
+httpx==0.23.3
