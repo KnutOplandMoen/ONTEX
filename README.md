@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/fccb203d-3d15-4732-9a6b-45f6de9b8003" height="170" alt="Osteosarcoma Now" style="vertical-align: top;" />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+
 # AI-Augmented Clinical Trial Explorer (ACTE)
 
 ACTE is a modern clinical trial database system for **Osteosarcoma Now**. It replaces legacy infrastructure with an AI-integrated pipeline to provide patients with accessible, up-to-date clinical trial information.
