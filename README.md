@@ -14,7 +14,7 @@ ACTE is a modern clinical trial database system for **Osteosarcoma Now**. It rep
 - **Frontend**: React, TypeScript, Vite, Tailwind CSS
 
 ## Quick Setup
-For detailed setup, development workflows, and deployment instructions, please refer to the [Development Guide](DEV_GUIDE.md).
+For detailed setup, development workflows, and deployment instructions, please refer to the [Development Guide](docs/DEV_GUIDE.md).
 
 ```powershell
 # Install backend dependencies
