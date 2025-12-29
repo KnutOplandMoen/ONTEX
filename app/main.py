@@ -16,7 +16,6 @@ from app.core.config import settings
 from app.db.database import engine, Base, get_db
 from app.db.models import ClinicalTrial, TrialStatus
 from app.admin.views import ClinicalTrialAdmin
-from app.services.ingestion import run_daily_ingestion
 from app.api.endpoints import router as api_router
 
 # Initialize Scheduler
@@ -136,7 +135,9 @@ app.include_router(api_router, prefix="/api/v1")
 
 @app.post("/api/v1/debug/run-ingestion")
 async def debug_ingestion():
-    await run_daily_ingestion()
+    # Import dynamically so tests can monkeypatch `app.services.ingestion.run_daily_ingestion`
+    import app.services.ingestion as ingestion
+    await ingestion.run_daily_ingestion()
     return {"status": "started"}
 
 # Mount static files
