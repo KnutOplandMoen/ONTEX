@@ -1,6 +1,11 @@
 import requests
 import json
 
+"""
+This script fetches clinical trial data from ClinicalTrials.gov API v2
+and formats it into a readable template.
+"""
+
 def get_trial_data(nct_id):
     # API v2 endpoint for a single study
     url = f"https://clinicaltrials.gov/api/v2/studies/{nct_id}"
