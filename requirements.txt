@@ -14,4 +14,4 @@ python-dotenv
 requests
 aiosqlite
 httpx==0.23.3
-pytest-asyncio
+pytest-asyncio==0.21.0
