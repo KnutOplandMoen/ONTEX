@@ -2,11 +2,12 @@
 Pytest configuration and fixtures for test suite.
 Handles proper cleanup of resources like database connections and event loops.
 """
-import pytest
-import pytest_asyncio
 import asyncio
 import sys
 from pathlib import Path
+
+import pytest
+import pytest_asyncio
 
 # Ensure repository root is on sys.path so `import app` works in CI
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))

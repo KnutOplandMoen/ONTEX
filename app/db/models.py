@@ -1,8 +1,11 @@
 import enum
 from datetime import datetime
-from sqlalchemy import String, Text, DateTime, Enum, Integer
+
+from sqlalchemy import DateTime, Enum, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
+
 from app.db.database import Base
+
 
 class TrialStatus(str, enum.Enum):
     PENDING_REVIEW = "PENDING_REVIEW"

@@ -1,6 +1,6 @@
-import os
-import sys
 import pathlib
+import sys
+
 import pytest
 
 # Ensure repository root is on sys.path so `import app` works in CI
@@ -24,8 +24,8 @@ async def test_get_trials_returns_list(tmp_path, monkeypatch):
     monkeypatch.setattr(ingestion, "run_daily_ingestion", noop)
 
     # Import app after env is configured
+    from app.db.database import Base, engine
     from app.main import app, scheduler
-    from app.db.database import engine, Base
 
     # Ensure tables exist for the sqlite test DB
     async with engine.begin() as conn:
@@ -55,8 +55,8 @@ async def test_debug_ingestion_endpoint(monkeypatch, tmp_path):
 
     monkeypatch.setattr(ingestion, "run_daily_ingestion", fake_run)
 
+    from app.db.database import Base, engine
     from app.main import app, scheduler
-    from app.db.database import engine, Base
 
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)

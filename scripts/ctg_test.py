@@ -1,5 +1,5 @@
+
 import requests
-import json
 
 """
 This script fetches clinical trial data from ClinicalTrials.gov API v2
@@ -36,7 +36,9 @@ def get_trial_data(nct_id):
         design = protocol.get("designModule", {})
         eligibility = protocol.get("eligibilityModule", {})
         contacts = protocol.get("contactsLocationsModule", {})
-        interventions = protocol.get("armsInterventionsModule", {}).get("interventions", [])
+        interventions = protocol.get("armsInterventionsModule", {}).get(
+            "interventions", []
+        )
 
         # Format Eligibility Criteria (Split Inclusion/Exclusion)
         criteria = eligibility.get("eligibilityCriteria", "")
@@ -49,8 +51,14 @@ def get_trial_data(nct_id):
 
         # Build the Template Output
         print(f"--- {ident.get('officialTitle')} ---")
-        print(f"Last Update Posted: {status.get('lastUpdatePostDateStruct', {}).get('date')}")
-        print(f"\nThe aim of the trial:\n{protocol.get('descriptionModule', {}).get('briefSummary')}")
+        print(
+            f"Last Update Posted: "
+            f"{status.get('lastUpdatePostDateStruct', {}).get('date')}"
+        )
+        print(
+            f"\nThe aim of the trial:\n"
+            f"{protocol.get('descriptionModule', {}).get('briefSummary')}"
+        )
         
         print(f"\nTrial Type: {design.get('studyType')}")
         print(f"Trial Phase: {', '.join(design.get('phases', [])) or 'N/A'}")
@@ -58,11 +66,16 @@ def get_trial_data(nct_id):
         print(f"Minimum Age: {eligibility.get('minimumAge', 'N/A')}")
         print(f"Maximum Age: {eligibility.get('maximumAge', 'No Limit')}")
         
-        print(f"\nKey Contact: {contacts.get('centralContacts', [{}])[0].get('name', 'Contact Sponsor Directly')}")
+        contact = contacts.get('centralContacts', [{}])[0]
+        contact_name = contact.get('name', 'Contact Sponsor Directly')
+        print(f"\nKey Contact: {contact_name}")
         
         print("\nHow the treatment works (Interventions):")
         for i in interventions:
-            print(f"- {i.get('type')}: {i.get('name')} ({i.get('description', 'No description')})")
+            print(
+                f"- {i.get('type')}: {i.get('name')} "
+                f"({i.get('description', 'No description')})"
+            )
 
         print(f"\nWho is the trial for?\n{inclusion}")
         print(f"\nWho is the trial not for?\n{exclusion}")

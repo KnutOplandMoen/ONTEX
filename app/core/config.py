@@ -1,5 +1,7 @@
 import os
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 def get_env_file() -> str:
     """Determine which .env file to load based on environment"""

@@ -1,8 +1,9 @@
-from typing import Optional, List
+from typing import List, Optional
+
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 from pydantic import BaseModel
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.database import get_db
 from app.db.models import ClinicalTrial, TrialStatus
@@ -25,7 +26,10 @@ class TrialResponse(BaseModel):
         from_attributes = True
 
 @router.get("/trials", response_model=List[TrialResponse])
-async def get_trials(status: Optional[TrialStatus] = None, db: AsyncSession = Depends(get_db)):
+async def get_trials(
+    status: Optional[TrialStatus] = None,
+    db: AsyncSession = Depends(get_db)
+):
     """
     Get trials, optionally filtered by status.
     """
@@ -38,7 +42,11 @@ async def get_trials(status: Optional[TrialStatus] = None, db: AsyncSession = De
     return trials
 
 @router.patch("/trials/{nct_id}", response_model=TrialResponse)
-async def update_trial(nct_id: str, body: TrialUpdate, db: AsyncSession = Depends(get_db)):
+async def update_trial(
+    nct_id: str,
+    body: TrialUpdate,
+    db: AsyncSession = Depends(get_db)
+):
     """
     Update trial status and custom summary.
     """

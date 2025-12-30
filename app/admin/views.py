@@ -1,6 +1,8 @@
-from sqladmin import ModelView
-from app.db.models import ClinicalTrial, TrialStatus
 from markupsafe import Markup
+from sqladmin import ModelView
+
+from app.db.models import ClinicalTrial, TrialStatus
+
 
 class ClinicalTrialAdmin(ModelView, model=ClinicalTrial):
     column_list = [
@@ -18,9 +20,10 @@ class ClinicalTrialAdmin(ModelView, model=ClinicalTrial):
         "title": {"readonly": True} 
     }
     
-    # Allow editing only specific fields (though read-only widget args above handle UI, logic below enforces)
-    # SQLAdmin doesn't have a strict "edit_columns" vs "create_columns" in the same way, 
-    # but excluding them from form might remove them. 
+    # Allow editing only specific fields (though read-only widget args above handle UI,
+    # logic below enforces)
+    # SQLAdmin doesn't have a strict "edit_columns" vs "create_columns" in the same way,
+    # but excluding them from form might remove them.
     # A safer way to ensure they are present but readonly is form_widget_args.
     # We want admin to edit custom_summary and status.
     

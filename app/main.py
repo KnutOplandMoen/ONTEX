@@ -1,22 +1,21 @@
-from contextlib import asynccontextmanager
-from fastapi import FastAPI, Depends
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
-from fastapi.middleware.cors import CORSMiddleware
-from sqladmin import Admin
-from sqlalchemy.ext.asyncio import AsyncSession
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from alembic.config import Config
-from pathlib import Path
-from alembic import command
-import os
 import asyncio
+import os
+from contextlib import asynccontextmanager
+from pathlib import Path
 
-from app.core.config import settings
-from app.db.database import engine, Base, get_db
-from app.db.models import ClinicalTrial, TrialStatus
+from alembic.config import Config
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+from sqladmin import Admin
+
+from alembic import command
 from app.admin.views import ClinicalTrialAdmin
 from app.api.endpoints import router as api_router
+from app.core.config import settings
+from app.db.database import Base, engine
 from app.services.ingestion import run_daily_ingestion
 
 # Initialize Scheduler
@@ -40,7 +39,9 @@ async def run_migrations():
     db_url = settings.DATABASE_URL or ""
 
     if os.getenv("SKIP_MIGRATIONS", "0") == "1":
-        print("run_migrations: SKIP_MIGRATIONS=1 set, skipping automatic alembic upgrade")
+        print(
+            "run_migrations: SKIP_MIGRATIONS=1 set, skipping automatic alembic upgrade"
+        )
         return
 
     # If using async sqlite, create metadata tables via async engine
@@ -137,24 +138,34 @@ app.include_router(api_router, prefix="/api/v1")
 
 @app.post("/api/v1/debug/run-ingestion")
 async def debug_ingestion():
-    # Import dynamically so tests can monkeypatch `app.services.ingestion.run_daily_ingestion`
+    # Import dynamically so tests can monkeypatch
+    # `app.services.ingestion.run_daily_ingestion`
     import app.services.ingestion as ingestion
     await ingestion.run_daily_ingestion()
     return {"status": "started"}
 
 # Mount static files
-# Only mount if the directory exists (it will in Docker, maybe not in local dev unless built)
-static_dir = os.path.join(os.path.dirname(__file__), "static") # Assumes /app/static in docker
+# (it will in Docker, maybe not in local dev unless built)
+static_dir = os.path.join(
+    os.path.dirname(__file__), "static"
+)  # Assumes /app/static in docker
 if not os.path.exists(static_dir):
     # Fallback for local development or if static dir is different
-    static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend", "dist")
+    static_dir = os.path.join(
+        os.path.dirname(os.path.dirname(__file__)), "frontend", "dist"
+    )
 
 if os.path.exists(static_dir):
-    app.mount("/assets", StaticFiles(directory=os.path.join(static_dir, "assets")), name="assets")
+    app.mount(
+        "/assets",
+        StaticFiles(directory=os.path.join(static_dir, "assets")),
+        name="assets"
+    )
 
 @app.get("/{full_path:path}")
 async def serve_spa(full_path: str):
-    # Check if API request first (though API router handles matches before this if included first? No, path matches are tricky)
+    # Check if API request first (though API router handles matches before this
+    # if included first? No, path matches are tricky)
     # Actually, if we use app.mount for static, specific paths are handled.
     # The Catch-all should be last.
     
